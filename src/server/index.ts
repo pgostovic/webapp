@@ -48,7 +48,7 @@ export class Server {
     messageLog('Add service path: ', servicePath);
     this.servicePaths.push(servicePath);
     this.serviceTypes = [...new Set(this.serviceTypes.concat(
-      fs.readdirSync(servicePath).map(name => path.basename(name).replace(/\.\w+/, '')),
+      fs.readdirSync(servicePath).map(name => path.basename(name).replace(/\.(d\.ts|js|ts)$/, '')),
     ))];
   }
 
