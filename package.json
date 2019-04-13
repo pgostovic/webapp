@@ -8,7 +8,9 @@
     "dist": "tsc",
     "postdist": "ts-node scripts/postdist",
     "clean": "rimraf dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release:patch": "npm version patch; npm run dist; cd dist; npm publish",
+    "release:minor": "npm version minor; npm run dist; cd dist; npm publish"
   },
   "author": "Patrick Gostovic",
   "license": "ISC",

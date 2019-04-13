@@ -47,9 +47,9 @@ export class Server {
   public addServicePath(servicePath: string): void {
     messageLog('Add service path: ', servicePath);
     this.servicePaths.push(servicePath);
-    this.serviceTypes = this.serviceTypes.concat(
-      fs.readdirSync(servicePath).map(name => path.basename(name, '.ts')),
-    );
+    this.serviceTypes = [...new Set(this.serviceTypes.concat(
+      fs.readdirSync(servicePath).map(name => path.basename(name).replace(/\.\w+/, '')),
+    ))];
   }
 
   private async findService(type: string): Promise<Service> {
