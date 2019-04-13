@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { configure as configureApi } from './api';
 import authState, { IAuthStateProps } from './state/auth';
 import AuthCode from './ui/auth/auth-code';
 import SetPassword from './ui/auth/set-password';
@@ -8,7 +9,21 @@ import SignOut from './ui/auth/sign-out';
 import SignUp from './ui/auth/sign-up';
 import Style from './ui/style';
 
-class WrappedClient extends PureComponent<IAuthStateProps> {
+interface IProps {
+  server: {
+    secure: boolean;
+    host: string;
+    port: number;
+  };
+}
+
+class WrappedClient extends PureComponent<IAuthStateProps & IProps> {
+  constructor(props: IAuthStateProps & IProps) {
+    super(props);
+
+    configureApi(props.server);
+  }
+
   public componentDidMount() {
     const { authenticate } = this.props;
     authenticate();

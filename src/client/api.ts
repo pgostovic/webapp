@@ -4,10 +4,6 @@ import { IApi } from '../model/api';
 
 const log = createLogger('api');
 
-const messageClient = new MessageClient(
-  `${process.env.SECURE === 'true' ? 'wss' : 'ws'}://${process.env.HOST}:${process.env.PORT}`,
-);
-
 const api = {};
 const q: Array<{ key: string; args: any[]; resolve: (msg: any) => void; reject: (err: Error) => void }> = [];
 let typesLoaded = false;
@@ -19,14 +15,24 @@ const apiProxy = new Proxy(api, {
       (typesLoaded
         ? undefined
         : (...args: any[]) =>
-            new Promise((resolve, reject) => {
-              q.push({ key, args, resolve, reject });
-            }))
+          new Promise((resolve, reject) => {
+            q.push({ key, args, resolve, reject });
+          }))
     );
   },
 });
 
-(async () => {
+interface IApiConfig {
+  secure: boolean;
+  host: string;
+  port: number;
+}
+
+export const configure = async ({ secure, host, port }: IApiConfig) => {
+  const messageClient = new MessageClient(
+    `${secure ? 'wss' : 'ws'}://${host}:${port}`,
+  );
+
   const { services } = (await messageClient.send('services')) as { services: string[] };
 
   services.forEach(type => {
@@ -54,7 +60,7 @@ const apiProxy = new Proxy(api, {
   });
 
   q.length = 0;
-})();
+};
 
 declare global {
   // tslint:disable-next-line: interface-name
