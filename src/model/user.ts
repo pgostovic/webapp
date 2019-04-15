@@ -1,4 +1,4 @@
-import { datastore, field, IData, memoryDataStore, Model } from '@phnq/model';
+import { field, IData, Model } from '@phnq/model';
 
 export interface IUserRequireFlags extends IData {
   passwordChange: boolean;
@@ -16,7 +16,6 @@ interface IUserData {
   requires?: IUserRequireFlags;
 }
 
-@datastore(memoryDataStore)
 class User extends Model<IUserData> {
   @field public email?: string;
   @field public firstName?: string;
