@@ -13,7 +13,7 @@ const createSessionWithCode = async (
 ): Promise<ICreateSessionResult> => {
   const { authCode: code } = p;
 
-  const user = (await search(User, { authCode: { code } }))[0];
+  const user = (await search(User, { 'authCode.code': code }))[0];
 
   if (user) {
     const authCodeExpiry = user.authCode ? user.authCode.expiry : undefined;
