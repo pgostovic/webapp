@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { ISetPasswordParams, ISetPasswordResult } from '../../model/api';
 import Session, { CREDENTIALS_SESSION_EXPIRY } from '../../model/session';
 import User from '../../model/user';
@@ -8,7 +9,7 @@ const setPassword = async (p: ISetPasswordParams, conn: Connection): Promise<ISe
   if (conn.user) {
     conn.user = await new User({
       ...conn.user,
-      password: p.password,
+      password: await bcrypt.hash(p.password, 5),
       requires: {
         ...conn.user.requires,
         passwordChange: false,

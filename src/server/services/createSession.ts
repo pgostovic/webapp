@@ -1,5 +1,6 @@
 import { Anomaly } from '@phnq/message';
 import { search } from '@phnq/model';
+import bcrypt from 'bcrypt';
 import uuid from 'uuid/v4';
 import { ICreateSessionParams, ICreateSessionResult } from '../../model/api';
 import Session, { CREDENTIALS_SESSION_EXPIRY } from '../../model/session';
@@ -10,9 +11,9 @@ import Service from '../service';
 const createSession = async (p: ICreateSessionParams, conn: Connection): Promise<ICreateSessionResult> => {
   const { email, password } = p;
 
-  const user = (await search(User, { email, password }))[0];
+  const user = (await search(User, { email }))[0];
 
-  if (user) {
+  if (user && user.password && (await bcrypt.compare(password, user.password))) {
     conn.user = user;
 
     const expiry = new Date(Date.now() + CREDENTIALS_SESSION_EXPIRY);
