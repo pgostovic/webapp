@@ -11,27 +11,27 @@ class Connection {
   }
 
   public get session(): Session {
-    return this.wrapped.get('session') as Session;
+    return this.get('session') as Session;
   }
 
   public set session(session: Session) {
-    this.wrapped.set('session', session);
+    this.set('session', session);
   }
 
   public get user(): User {
-    return this.wrapped.get('user') as User;
+    return this.get('user') as User;
   }
 
   public set user(user: User) {
-    this.wrapped.set('user', user);
+    this.set('user', user);
   }
 
   public get serviceTypes(): string[] {
-    return this.wrapped.get('serviceTypes') as string[];
+    return this.get('serviceTypes') as string[];
   }
 
   public set serviceTypes(serviceTypes: string[]) {
-    this.wrapped.set('serviceTypes', serviceTypes);
+    this.set('serviceTypes', serviceTypes);
   }
 
   public validateSession() {
@@ -40,6 +40,14 @@ class Connection {
         throw new Anomaly('Expired session', { code: 'expired-session' });
       }
     }
+  }
+
+  protected get(name: string): any {
+    return this.wrapped.get(name);
+  }
+
+  protected set(name: string, value: any) {
+    this.wrapped.set(name, value);
   }
 }
 
