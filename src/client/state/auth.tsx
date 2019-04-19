@@ -32,7 +32,7 @@ export default createState<IState, IActions>(
     },
     authStatus: AuthStatus.Unkown,
   },
-  (_: any, setState: any) => ({
+  ({ setState }) => ({
     async signUp(email: string) {
       const { requires: authRequires } = await api.createAccount({ email });
       setState({ authRequires });
