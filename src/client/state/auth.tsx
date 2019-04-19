@@ -1,5 +1,5 @@
 import { createState } from '@phnq/state';
-import { IUserRequireFlags } from '../../model/user';
+import { IAccountRequireFlags } from '../../model/account';
 import api from '../api';
 
 export enum AuthStatus {
@@ -10,7 +10,7 @@ export enum AuthStatus {
 
 interface IState {
   authStatus: AuthStatus;
-  authRequires: IUserRequireFlags;
+  authRequires: IAccountRequireFlags;
 }
 
 interface IActions {
@@ -34,7 +34,7 @@ export default createState<IState, IActions>(
   },
   (_: any, setState: any) => ({
     async signUp(email: string) {
-      const { requires: authRequires } = await api.createUser({ email });
+      const { requires: authRequires } = await api.createAccount({ email });
       setState({ authRequires });
     },
 

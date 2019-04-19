@@ -4,8 +4,8 @@ interface IServicesResult {
   services: string[];
 }
 
-const ping = async (_: any, conn: Connection): Promise<IServicesResult> => {
+const services = async (_: any, conn: Connection): Promise<IServicesResult> => {
   return { services: conn.serviceTypes };
 };
 
-export default ping;
+export default services;

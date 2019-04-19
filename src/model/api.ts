@@ -1,4 +1,4 @@
-import { IUserRequireFlags } from './user';
+import { IAccountRequireFlags } from './account';
 
 // *************** authenticate ***************
 export interface IAuthenticateParams {
@@ -7,7 +7,7 @@ export interface IAuthenticateParams {
 
 export interface IAuthenticateResult {
   authenticated: boolean;
-  requires?: IUserRequireFlags;
+  requires?: IAccountRequireFlags;
 }
 
 // *************** createSession ***************
@@ -22,20 +22,20 @@ export interface ICreateSessionWithCodeParams {
 
 export interface ICreateSessionResult {
   token: string | undefined;
-  requires?: IUserRequireFlags;
+  requires?: IAccountRequireFlags;
 }
 
 export interface IDestroySessionResult {
   destroyed: boolean;
 }
 
-// *************** createUser ***************
-export interface ICreateUserParams {
+// *************** createAccount ***************
+export interface ICreateAccountParams {
   email: string;
 }
 
-export interface ICreateUserResult {
-  requires: IUserRequireFlags;
+export interface ICreateAccountResult {
+  requires: IAccountRequireFlags;
 }
 
 // *************** setPassword ***************
@@ -45,7 +45,7 @@ export interface ISetPasswordParams {
 
 export interface ISetPasswordResult {
   passwordSet: boolean;
-  requires?: IUserRequireFlags;
+  requires?: IAccountRequireFlags;
 }
 
 // *************** API ***************
@@ -54,6 +54,6 @@ export interface IApi {
   createSession: (p: ICreateSessionParams) => Promise<ICreateSessionResult>;
   createSessionWithCode: (p: ICreateSessionWithCodeParams) => Promise<ICreateSessionResult>;
   destroySession: () => Promise<IDestroySessionResult>;
-  createUser: (p: ICreateUserParams) => Promise<ICreateUserResult>;
+  createAccount: (p: ICreateAccountParams) => Promise<ICreateAccountResult>;
   setPassword: (p: ISetPasswordParams) => Promise<ISetPasswordResult>;
 }

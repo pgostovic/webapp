@@ -1,10 +1,10 @@
 import { field, IData, Model } from '@phnq/model';
 
-export interface IUserRequireFlags extends IData {
+export interface IAccountRequireFlags extends IData {
   passwordChange: boolean;
 }
 
-interface IUserData {
+interface IAccountData {
   email?: string;
   firstName?: string;
   lastName?: string;
@@ -13,10 +13,10 @@ interface IUserData {
     code: string;
     expiry: Date;
   };
-  requires?: IUserRequireFlags;
+  requires?: IAccountRequireFlags;
 }
 
-class User extends Model<IUserData> {
+class Account extends Model<IAccountData> {
   @field public email?: string;
   @field public firstName?: string;
   @field public lastName?: string;
@@ -25,11 +25,11 @@ class User extends Model<IUserData> {
     code: string;
     expiry: Date;
   };
-  @field public requires?: IUserRequireFlags;
+  @field public requires?: IAccountRequireFlags;
 
-  constructor(data: IUserData) {
+  constructor(data: IAccountData) {
     super({ requires: { passwordChange: false }, ...data });
   }
 }
 
-export default User;
+export default Account;

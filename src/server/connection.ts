@@ -1,7 +1,7 @@
 import { Anomaly } from '@phnq/message';
 import { Connection as MessageConnection } from '@phnq/message/server';
+import Account from '../model/account';
 import Session from '../model/session';
-import User from '../model/user';
 
 class Connection {
   private wrapped: MessageConnection;
@@ -18,12 +18,12 @@ class Connection {
     this.set('session', session);
   }
 
-  public get user(): User {
-    return this.get('user') as User;
+  public get account(): Account {
+    return this.get('account') as Account;
   }
 
-  public set user(user: User) {
-    this.set('user', user);
+  public set account(account: Account) {
+    this.set('account', account);
   }
 
   public get serviceTypes(): string[] {

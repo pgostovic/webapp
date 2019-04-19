@@ -1,22 +1,22 @@
 import { field, find, Model } from '@phnq/model';
-import User from './user';
+import Account from './account';
 
 export const AUTH_CODE_SESSION_EXPIRY = 10 * 60 * 1000; // 10 minutes
 export const CREDENTIALS_SESSION_EXPIRY = 30 * 24 * 60 * 60 * 1000; // 30 days
 
 interface ISessionData {
   token?: string;
-  userId?: string;
+  accountId?: string;
   expiry?: Date;
 }
 
 class Session extends Model<ISessionData> {
   @field public token?: string;
-  @field public userId?: string;
+  @field public accountId?: string;
   @field public expiry?: Date;
 
-  public get user(): Promise<User> {
-    return find(User, this.userId) as Promise<User>;
+  public get account(): Promise<Account> {
+    return find(Account, this.accountId) as Promise<Account>;
   }
 }
 

@@ -5,13 +5,13 @@ import Connection from '../connection';
 import Service from '../service';
 
 const authenticate = async (p: IAuthenticateParams, conn: Connection): Promise<IAuthenticateResult> => {
-  const user = conn.user;
+  const account = conn.account;
 
-  if (!user) {
+  if (!account) {
     const sessions = await search(Session, { token: p.token });
     if (sessions.length === 1) {
       conn.session = sessions[0];
-      conn.user = await sessions[0].user;
+      conn.account = await sessions[0].account;
       try {
         conn.validateSession();
       } catch (err) {
@@ -22,8 +22,8 @@ const authenticate = async (p: IAuthenticateParams, conn: Connection): Promise<I
     }
   }
 
-  if (conn.user) {
-    return { authenticated: true, requires: conn.user.requires };
+  if (conn.account) {
+    return { authenticated: true, requires: conn.account.requires };
   } else {
     return { authenticated: false };
   }
