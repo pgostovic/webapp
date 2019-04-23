@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { configure as configureApi } from './api';
 import authState, { IAuthStateProps } from './state/auth';
@@ -17,7 +17,7 @@ interface IProps {
   };
 }
 
-class WrappedClient extends PureComponent<IAuthStateProps & IProps> {
+class WrappedClient extends Component<IAuthStateProps & IProps> {
   constructor(props: IAuthStateProps & IProps) {
     super(props);
 
