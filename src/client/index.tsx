@@ -39,14 +39,12 @@ class WrappedClient extends Component<IAuthStateProps & IProps> {
     return (
       <Style>
         <Router>
-          <Switch>
-            <Route path='/sign-in' component={SignIn} />
-            <Route path='/sign-out' component={SignOut} />
-            <Route path='/sign-up' component={SignUp} />
-            <Route path='/code/:code' component={AuthCode} />
-            <Route path='/set-password' component={SetPassword} />
-            {children}
-          </Switch>
+          <Route path='/sign-in' component={SignIn} />
+          <Route path='/sign-out' component={SignOut} />
+          <Route path='/sign-up' component={SignUp} />
+          <Route path='/code/:code' component={AuthCode} />
+          <Route path='/set-password' component={SetPassword} />
+          {children}
         </Router>
       </Style>
     );
