@@ -31,6 +31,7 @@ class WrappedClient extends Component<IAuthStateProps & IProps> {
 
   public render() {
     const { children } = this.props;
+    console.log('RENDER');
     return (
       <Style>
         <Router>
