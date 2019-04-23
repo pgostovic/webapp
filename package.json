@@ -1,6 +1,6 @@
 {
   "name": "@phnq/webapp",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Client/server webapp framework",
   "main": "index.server.js",
   "browser": "index.client.js",
