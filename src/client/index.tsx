@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { configure as configureApi } from './api';
-import authState, { IAuthStateProps } from './state/auth';
+import authState, { AuthStatus, IAuthStateProps } from './state/auth';
 import AuthCode from './ui/auth/auth-code';
 import SetPassword from './ui/auth/set-password';
 import SignIn from './ui/auth/sign-in';
@@ -30,8 +30,12 @@ class WrappedClient extends Component<IAuthStateProps & IProps> {
   }
 
   public render() {
-    const { children } = this.props;
-    console.log('RENDER');
+    const { children, authStatus } = this.props;
+
+    if (authStatus === AuthStatus.Unkown) {
+      return null;
+    }
+
     return (
       <Style>
         <Router>
