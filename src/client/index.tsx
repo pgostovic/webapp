@@ -45,7 +45,7 @@ class WrappedClient extends Component<IAuthStateProps & IProps> {
             <Route path='/sign-up' component={SignUp} />
             <Route path='/code/:code' component={AuthCode} />
             <Route path='/set-password' component={SetPassword} />
-            <Route render={() => children} />
+            <Route children={children} />
           </Switch>
         </Router>
       </Style>
