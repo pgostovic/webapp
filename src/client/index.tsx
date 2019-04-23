@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { configure as configureApi } from './api';
 import authState, { AuthStatus, IAuthStateProps } from './state/auth';
 import AuthCode from './ui/auth/auth-code';
