@@ -9,6 +9,7 @@
     "postdist": "ts-node scripts/postdist",
     "clean": "rimraf dist",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "upgrade:phnq": "npm upgrade @phnq/log @phnq/message @phnq/model @phnq/state",
     "release:patch": "npm version patch; npm run dist; cd dist; npm publish",
     "release:minor": "npm version minor; npm run dist; cd dist; npm publish"
   },
@@ -34,7 +35,7 @@
     "@phnq/log": "^1.0.3",
     "@phnq/message": "^1.3.0",
     "@phnq/model": "^1.0.10",
-    "@phnq/state": "^1.2.1",
+    "@phnq/state": "^1.2.2",
     "bcrypt": "^3.0.6",
     "crypto-random-string": "^2.0.0",
     "css-reset-and-normalize": "^2.0.1",
