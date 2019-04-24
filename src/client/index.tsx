@@ -32,6 +32,8 @@ class WrappedClient extends Component<IAuthStateProps & IProps> {
   public render() {
     const { children, authStatus } = this.props;
 
+    console.log('authStatus', authStatus);
+
     if (authStatus === AuthStatus.Unkown) {
       return null;
     }
