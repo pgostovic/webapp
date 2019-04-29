@@ -27,6 +27,7 @@ const AuthWrapper = authState.consumer((props: IAuthWrapperProps) => {
     case AuthStatus.Unkown:
       return null;
     case AuthStatus.NotAuthenticated:
+      props.setPostSignInPath(location.pathname);
       return <Redirect to='/sign-in' />;
     default:
       return props.children;

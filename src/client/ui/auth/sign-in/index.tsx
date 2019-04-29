@@ -28,12 +28,13 @@ class SignIn extends PureComponent<IAuthStateProps & RouteComponentProps, IState
   private onSignIn = async (email: string, password: string) => {
     const {
       signIn,
+      postSignInPath,
       history: { replace },
     } = this.props;
     try {
       this.setState({ errorMessage: undefined, successMessage: undefined });
       await signIn(email, password);
-      replace('/');
+      replace(postSignInPath || '/');
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }

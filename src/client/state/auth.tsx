@@ -11,15 +11,17 @@ export enum AuthStatus {
 interface IState {
   authStatus: AuthStatus;
   authRequires: IAccountRequireFlags;
+  postSignInPath?: string;
 }
 
 interface IActions {
-  authenticate: () => void;
-  signUp: (email: string) => void;
-  setPassword: (password: string) => void;
-  signIn: (email: string, password: string) => void;
-  signInWithCode: (code: string) => void;
-  signOut: () => void;
+  authenticate(): void;
+  signUp(email: string): void;
+  setPassword(password: string): void;
+  signIn(email: string, password: string): void;
+  signInWithCode(code: string): void;
+  signOut(): void;
+  setPostSignInPath(path: string): void;
 }
 
 export type IAuthStateProps = IState & IActions;
@@ -63,7 +65,7 @@ export default createState<IState, IActions>(
       const { token, requires } = await api.createSession({ email, password });
       if (token) {
         localStorage.setItem('t', token);
-        setState({ authRequires: requires, authStatus: AuthStatus.Authenticated });
+        setState({ authRequires: requires, authStatus: AuthStatus.Authenticated, postSignInPath: undefined });
       } else {
         setState({ authStatus: AuthStatus.NotAuthenticated });
       }
@@ -73,7 +75,7 @@ export default createState<IState, IActions>(
       const { token, requires } = await api.createSessionWithCode({ authCode });
       if (token) {
         localStorage.setItem('t', token);
-        setState({ authRequires: requires, authStatus: AuthStatus.Authenticated });
+        setState({ authRequires: requires, authStatus: AuthStatus.Authenticated, postSignInPath: undefined });
       } else {
         setState({ authStatus: AuthStatus.NotAuthenticated });
       }
@@ -86,6 +88,10 @@ export default createState<IState, IActions>(
         localStorage.removeItem('t');
         setState({ authStatus: AuthStatus.NotAuthenticated });
       }
+    },
+
+    setPostSignInPath(path: string) {
+      setState({ postSignInPath: path });
     },
   }),
 );
