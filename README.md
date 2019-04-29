@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/%40phnq%2Fwebapp.svg)](https://badge.fury.io/js/%40phnq%2Fwebapp)
 
-Aggressively opinionated framework for building webapps. It's so opinionated that nobody should use it except me.
+Aggressively opinionated framework for building webapps. It's so opinionated that nobody should use it except me. This module is really just to help me repeat myself less in web projects.
 
 - React frontend, Node.js backend
 - Authentication, account management, including bare bones UI
