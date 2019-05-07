@@ -1,6 +1,6 @@
 import { createState } from '@phnq/state';
 import { IAccountRequireFlags } from '../../model/account';
-import api from '../api';
+import api, { removeClientToken, retrieveClientToken, storeClientToken } from '../api';
 
 export enum AuthStatus {
   Unkown,
@@ -41,12 +41,12 @@ export default createState<IState, IActions>(
     },
 
     async authenticate() {
-      const token = localStorage.t;
+      const token = retrieveClientToken();
 
       if (token) {
         const authenticated = (await api.authenticate({ token })).authenticated;
         if (!authenticated) {
-          localStorage.removeItem('t');
+          removeClientToken();
         }
         setState({ authStatus: authenticated ? AuthStatus.Authenticated : AuthStatus.NotAuthenticated });
       } else {
@@ -64,7 +64,7 @@ export default createState<IState, IActions>(
     async signIn(email: string, password: string) {
       const { token, requires } = await api.createSession({ email, password });
       if (token) {
-        localStorage.setItem('t', token);
+        storeClientToken(token);
         setState({ authRequires: requires, authStatus: AuthStatus.Authenticated, postSignInPath: undefined });
       } else {
         setState({ authStatus: AuthStatus.NotAuthenticated });
@@ -74,7 +74,7 @@ export default createState<IState, IActions>(
     async signInWithCode(authCode: string) {
       const { token, requires } = await api.createSessionWithCode({ authCode });
       if (token) {
-        localStorage.setItem('t', token);
+        storeClientToken(token);
         setState({ authRequires: requires, authStatus: AuthStatus.Authenticated, postSignInPath: undefined });
       } else {
         setState({ authStatus: AuthStatus.NotAuthenticated });
@@ -85,7 +85,7 @@ export default createState<IState, IActions>(
       await this.authenticate();
       const { destroyed } = await api.destroySession();
       if (destroyed) {
-        localStorage.removeItem('t');
+        removeClientToken();
         setState({ authStatus: AuthStatus.NotAuthenticated });
       }
     },

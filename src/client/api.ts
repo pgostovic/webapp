@@ -5,6 +5,16 @@ import { AnomalyCode, IApi } from '../model/api';
 
 const log = createLogger('api');
 
+export const retrieveClientToken = (): string => localStorage.getItem('t') || '';
+
+export const storeClientToken = (token: string) => {
+  localStorage.setItem('t', token);
+};
+
+export const removeClientToken = () => {
+  localStorage.removeItem('t');
+};
+
 const api = {};
 const q: Array<{ key: string; args: any[]; resolve: (msg: any) => void; reject: (err: Error) => void }> = [];
 let typesLoaded = false;
@@ -43,7 +53,7 @@ export const configure = async ({ secure, host, port }: IApiConfig) => {
         } catch (err) {
           if (err instanceof Anomaly && err.data.code === AnomalyCode.NoSession) {
             // if there's no session then try to authenticate, then retry the same message again
-            if ((await (apiProxy as IApi).authenticate({ token: localStorage.getItem('t') || '' })).authenticated) {
+            if ((await (apiProxy as IApi).authenticate({ token: retrieveClientToken() })).authenticated) {
               return await messageClient.send(type, data);
             } else {
               throw new Anomaly('Unauthorized', { code: AnomalyCode.Unauthorized });
