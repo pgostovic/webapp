@@ -1,6 +1,7 @@
 import { Anomaly } from '@phnq/message';
 import { Connection as MessageConnection } from '@phnq/message/server';
 import Account from '../model/account';
+import { AnomalyCode } from '../model/api';
 import Session from '../model/session';
 
 class Connection {
@@ -37,8 +38,14 @@ class Connection {
   public validateSession() {
     if (this.session) {
       if (this.session.expiry && Date.now() > this.session.expiry.getTime()) {
-        throw new Anomaly('Expired session', { code: 'expired-session' });
+        throw new Anomaly('Expired session', { code: AnomalyCode.ExpiredSession });
       }
+    }
+  }
+
+  public authenticate() {
+    if (!this.session) {
+      throw new Anomaly('No session', { code: AnomalyCode.NoSession });
     }
   }
 

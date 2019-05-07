@@ -1,6 +1,7 @@
 import { createLogger } from '@phnq/log';
+import { Anomaly } from '@phnq/message';
 import MessageClient from '@phnq/message/client';
-import { IApi } from '../model/api';
+import { AnomalyCode, IApi } from '../model/api';
 
 const log = createLogger('api');
 
@@ -15,9 +16,9 @@ const apiProxy = new Proxy(api, {
       (typesLoaded
         ? undefined
         : (...args: any[]) =>
-          new Promise((resolve, reject) => {
-            q.push({ key, args, resolve, reject });
-          }))
+            new Promise((resolve, reject) => {
+              q.push({ key, args, resolve, reject });
+            }))
     );
   },
 });
@@ -29,16 +30,27 @@ interface IApiConfig {
 }
 
 export const configure = async ({ secure, host, port }: IApiConfig) => {
-  const messageClient = new MessageClient(
-    `${secure ? 'wss' : 'ws'}://${host}:${port}`,
-  );
+  const messageClient = new MessageClient(`${secure ? 'wss' : 'ws'}://${host}:${port}`);
 
   const { services } = (await messageClient.send('services')) as { services: string[] };
 
   services.forEach(type => {
     Object.defineProperty(api, type, {
       enumerable: true,
-      value: async (data: any) => await messageClient.send(type, data),
+      value: async (data: any) => {
+        try {
+          return await messageClient.send(type, data);
+        } catch (err) {
+          if (err instanceof Anomaly && err.data.code === AnomalyCode.NoSession) {
+            // if there's no session then try to authenticate, then retry the same message again
+            if ((await (apiProxy as IApi).authenticate({ token: localStorage.getItem('t') || '' })).authenticated) {
+              return await messageClient.send(type, data);
+            } else {
+              throw new Anomaly('Unauthorized', { code: AnomalyCode.Unauthorized });
+            }
+          }
+        }
+      },
       writable: false,
     });
   });

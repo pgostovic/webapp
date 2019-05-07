@@ -4,13 +4,11 @@
  * rendered. When the auth status is known, if it's not authenticated then
  * there's a redirect to /sign-in.
  */
-import React from 'react';
+import React, { ComponentType } from 'react';
 import { Redirect } from 'react-router-dom';
 import authState, { AuthStatus, IAuthStateProps } from '../../state/auth';
 
-type Class = new (...args: any[]) => any;
-
-export const authenticate = ((): any => (Wrapped: Class): any => (props: any): any => {
+export const authenticate = ((): any => (Wrapped: ComponentType): any => (props: any): any => {
   return (
     <AuthWrapper>
       <Wrapped {...props} />

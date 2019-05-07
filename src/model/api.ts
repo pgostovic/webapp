@@ -1,5 +1,11 @@
 import { IAccountRequireFlags } from './account';
 
+export enum AnomalyCode {
+  NoSession = 'no-session',
+  ExpiredSession = 'expired-session',
+  Unauthorized = 'unauthorized',
+}
+
 // *************** authenticate ***************
 export interface IAuthenticateParams {
   token: string;
