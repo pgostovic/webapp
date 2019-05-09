@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import Account from '../../model/account';
 import { ISetPasswordParams, ISetPasswordResult } from '../../model/api';
 import Session, { CREDENTIALS_SESSION_EXPIRY } from '../../model/session';
 import Connection from '../connection';
@@ -7,14 +6,12 @@ import Service from '../service';
 
 const setPassword = async (p: ISetPasswordParams, conn: Connection): Promise<ISetPasswordResult> => {
   if (conn.account) {
-    conn.account = await new Account({
-      ...conn.account,
-      password: await bcrypt.hash(p.password, 5),
-      requires: {
-        ...conn.account.requires,
-        passwordChange: false,
-      },
-    }).save();
+    conn.account.password = await bcrypt.hash(p.password, 5);
+    conn.account.requires = {
+      ...conn.account.requires,
+      passwordChange: false,
+    };
+    conn.account.save();
 
     await new Session({
       ...conn.session,

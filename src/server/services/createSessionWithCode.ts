@@ -26,9 +26,9 @@ const createSessionWithCode = async (
     const expiry = new Date(Date.now() + AUTH_CODE_SESSION_EXPIRY);
 
     const session = (await new Session({
+      token: uuid(),
       accountId: account.id,
       expiry,
-      token: uuid(),
     }).save()) as Session;
 
     conn.session = session;
