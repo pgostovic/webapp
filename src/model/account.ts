@@ -1,10 +1,10 @@
-import { field, IData, Model } from '@phnq/model';
+import { IModel, Model } from '@phnq/model';
 
-export interface IAccountRequireFlags extends IData {
+export interface IAccountRequireFlags {
   passwordChange: boolean;
 }
 
-interface IAccountData {
+interface IAccountData extends IModel {
   email?: string;
   firstName?: string;
   lastName?: string;
@@ -17,15 +17,15 @@ interface IAccountData {
 }
 
 class Account extends Model<IAccountData> {
-  @field public email?: string;
-  @field public firstName?: string;
-  @field public lastName?: string;
-  @field public password?: string;
-  @field public authCode?: {
+  public email?: string;
+  public firstName?: string;
+  public lastName?: string;
+  public password?: string;
+  public authCode?: {
     code: string;
     expiry: Date;
   };
-  @field public requires?: IAccountRequireFlags;
+  public requires?: IAccountRequireFlags;
 
   constructor(data: IAccountData) {
     super({ requires: { passwordChange: false }, ...data });
