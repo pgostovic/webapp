@@ -5,6 +5,7 @@ import { IData } from '@phnq/model';
 import fs from 'fs';
 import http from 'http';
 import path from 'path';
+import prettyHrtime from 'pretty-hrtime';
 import Connection from './connection';
 import Service from './service';
 
@@ -22,12 +23,15 @@ export class Server {
 
     this.messageServer.onMessage = async (type: string, data: IData, messageConn: MessageConnection): Promise<any> => {
       try {
+        const start = process.hrtime();
+
         const conn = new Server.ConnectionClass(messageConn);
         conn.serviceTypes = this.serviceTypes;
         conn.validateSession();
-        messageLog(type);
         const service = await this.findService(type);
-        return await service(data, conn);
+        const result = await service(data, conn);
+        messageLog('%s - %s', type, prettyHrtime(process.hrtime(start)));
+        return result;
       } catch (err) {
         if (!(err instanceof Anomaly)) {
           messageLog('UNEXPECTED ERROR', err);
