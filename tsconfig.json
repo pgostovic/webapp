@@ -12,5 +12,5 @@
     "jsx": "react",
     "experimentalDecorators": true
   },
-  "exclude": ["dist", "scripts", "src/__tests__"]
+  "include": ["src"]
 }
