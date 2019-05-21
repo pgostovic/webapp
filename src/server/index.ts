@@ -11,7 +11,7 @@ import Service from './service';
 
 const messageLog = createLogger('message');
 
-export class Server {
+export class WebappServer {
   public static ConnectionClass = Connection;
 
   private servicePaths: string[] = [];
@@ -25,7 +25,7 @@ export class Server {
       try {
         const start = process.hrtime();
 
-        const conn = new Server.ConnectionClass(messageConn);
+        const conn = new WebappServer.ConnectionClass(messageConn);
         conn.serviceTypes = this.serviceTypes;
         conn.validateSession();
         const service = await this.findService(type);
