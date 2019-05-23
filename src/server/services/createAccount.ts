@@ -13,16 +13,16 @@ const createAccount = async (p: ICreateAccountParams): Promise<ICreateAccountRes
     throw new Anomaly('Invalid email address.');
   }
 
-  const account = (await new Account({
-    email: p.email,
+  const account = await new Account({
     authCode: {
       code: cryptoRandomString(10),
       expiry: new Date(Date.now() + 5 * 60 * 1000),
     },
+    email: p.email,
     requires: {
       passwordChange: true,
     },
-  }).save()) as Account;
+  }).save();
 
   if (account.authCode) {
     log(`CREATED ACCOUNT - authCode url:\n\thttp://localhost:7777/code/${account.authCode.code}`);

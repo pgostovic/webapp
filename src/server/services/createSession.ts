@@ -18,11 +18,11 @@ const createSession = async (p: ICreateSessionParams, conn: Connection): Promise
 
     const expiry = new Date(Date.now() + CREDENTIALS_SESSION_EXPIRY);
 
-    const session = (await new Session({
+    const session = await new Session({
       accountId: account.id,
       expiry,
       token: uuid(),
-    }).save()) as Session;
+    }).save();
 
     conn.session = session;
 
