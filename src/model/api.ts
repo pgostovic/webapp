@@ -6,6 +6,8 @@ export enum AnomalyCode {
   Unauthorized = 'unauthorized',
 }
 
+export type MultiResponse<T> = () => AsyncIterableIterator<T>;
+
 // *************** authenticate ***************
 export interface IAuthenticateParams {
   token: string;
