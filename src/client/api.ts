@@ -39,8 +39,14 @@ interface IApiConfig {
   port: number;
 }
 
+let messageClient: MessageClient;
+
 export const configure = async ({ secure, host, port }: IApiConfig) => {
-  const messageClient = new MessageClient(`${secure ? 'wss' : 'ws'}://${host}:${port}`);
+  if (messageClient) {
+    await messageClient.close();
+  }
+
+  messageClient = new MessageClient(`${secure ? 'wss' : 'ws'}://${host}:${port}`);
 
   const { services } = (await messageClient.send('services')) as { services: string[] };
 
