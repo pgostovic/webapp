@@ -1,13 +1,13 @@
 import { Anomaly } from '@phnq/message';
-import { Connection as MessageConnection } from '@phnq/message/server';
+import { IConnection } from '@phnq/message/server';
 import Account from '../model/account';
 import { AnomalyCode } from '../model/api';
 import Session from '../model/session';
 
 class Connection {
-  private wrapped: MessageConnection;
+  private wrapped: IConnection;
 
-  constructor(wrapped: MessageConnection) {
+  constructor(wrapped: IConnection) {
     this.wrapped = wrapped;
   }
 

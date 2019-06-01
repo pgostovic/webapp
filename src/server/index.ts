@@ -1,7 +1,7 @@
 import { createLogger } from '@phnq/log';
 import { Anomaly } from '@phnq/message';
 import { IValue } from '@phnq/message/constants';
-import { Connection as MessageConnection, MessageServer } from '@phnq/message/server';
+import { IConnection, MessageServer } from '@phnq/message/server';
 import fs from 'fs';
 import http from 'http';
 import path from 'path';
@@ -21,7 +21,7 @@ export class WebappServer {
   constructor(httpServer: http.Server) {
     this.messageServer = new MessageServer(httpServer);
 
-    this.messageServer.onMessage = async (type: string, data: IValue, messageConn: MessageConnection): Promise<any> => {
+    this.messageServer.onMessage = async (type: string, data: IValue, messageConn: IConnection): Promise<any> => {
       try {
         const start = process.hrtime();
 
