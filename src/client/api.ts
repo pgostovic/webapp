@@ -15,7 +15,13 @@ export const removeClientToken = () => {
   localStorage.removeItem('t');
 };
 
-const api = {};
+const api = {
+  on<T>(type: string, handler: (data: T) => void) {
+    messageClient.on(type, (data: any) => {
+      handler(data as T);
+    });
+  },
+};
 const q: Array<{ key: string; args: any[]; resolve: (msg: any) => void; reject: (err: Error) => void }> = [];
 let typesLoaded = false;
 

@@ -58,10 +58,11 @@ export interface ISetPasswordResult {
 
 // *************** API ***************
 export interface IApi {
-  authenticate: (p: IAuthenticateParams) => Promise<IAuthenticateResult>;
-  createSession: (p: ICreateSessionParams) => Promise<ICreateSessionResult>;
-  createSessionWithCode: (p: ICreateSessionWithCodeParams) => Promise<ICreateSessionResult>;
-  destroySession: () => Promise<IDestroySessionResult>;
-  createAccount: (p: ICreateAccountParams) => Promise<ICreateAccountResult>;
-  setPassword: (p: ISetPasswordParams) => Promise<ISetPasswordResult>;
+  on<T>(type: string, handler: (data: T) => void): void;
+  authenticate(p: IAuthenticateParams): Promise<IAuthenticateResult>;
+  createSession(p: ICreateSessionParams): Promise<ICreateSessionResult>;
+  createSessionWithCode(p: ICreateSessionWithCodeParams): Promise<ICreateSessionResult>;
+  destroySession(): Promise<IDestroySessionResult>;
+  createAccount(p: ICreateAccountParams): Promise<ICreateAccountResult>;
+  setPassword(p: ISetPasswordParams): Promise<ISetPasswordResult>;
 }
