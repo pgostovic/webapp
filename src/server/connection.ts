@@ -1,4 +1,5 @@
 import { Anomaly } from '@phnq/message';
+import { IValue } from '@phnq/message/constants';
 import { IConnection } from '@phnq/message/server';
 import Account from '../model/account';
 import { AnomalyCode } from '../model/api';
@@ -47,6 +48,10 @@ class Connection {
     if (!this.session) {
       throw new Anomaly('No session', { code: AnomalyCode.NoSession });
     }
+  }
+
+  public push(type: string, data: IValue) {
+    this.wrapped.push(type, data);
   }
 
   protected get(name: string): any {
