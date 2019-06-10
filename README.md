@@ -1,5 +1,7 @@
 # @phnq/webapp
 
+[![CircleCI](https://circleci.com/gh/pgostovic/webapp.svg?style=svg)](https://circleci.com/gh/pgostovic/webapp)
+
 [![npm version](https://badge.fury.io/js/%40phnq%2Fwebapp.svg)](https://badge.fury.io/js/%40phnq%2Fwebapp)
 
 Aggressively opinionated framework for building webapps. It's so opinionated that nobody should use it except me. This module is really just to help me repeat myself less in web projects.
