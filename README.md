@@ -17,7 +17,7 @@ Aggressively opinionated framework for building webapps. It's so opinionated tha
 ### Client
 
 ```tsx
-import { Client } from "@phnq/webapp/client";
+import { WebappClient } from "@phnq/webapp/client";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import UI from "./ui";
@@ -31,9 +31,9 @@ const server = {
 class App extends Component {
   public render() {
     return (
-      <Client server={server}>
+      <WebappClient server={server}>
         <UI />
-      </Client>
+      </WebappClient>
     );
   }
 }
@@ -44,14 +44,14 @@ ReactDOM.render(<App />, document.getElementById("app"));
 ### Server
 
 ```ts
-import { Server } from "@phnq/webapp/server";
+import { WebappServer } from "@phnq/webapp/server";
 
 // Native Node.js HTTP server
 const httpServer = http.createServer();
 httpServer.listen(process.env.PORT);
 
 // The Phnq Server just wraps the native server
-const server = new Server(httpServer);
+const server = new WebappServer(httpServer);
 
 // Tell the server where to discover the backend services
 server.addServicePath(path.resolve(__dirname, "services"));
