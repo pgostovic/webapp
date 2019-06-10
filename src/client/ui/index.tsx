@@ -11,9 +11,9 @@ import SignUp from './auth/sign-up';
 @authState.provider
 @authState.consumer
 export default class extends Component<IAuthStateProps> {
-  public componentDidMount() {
+  public async componentDidMount() {
     const { authenticate } = this.props;
-    authenticate();
+    await authenticate();
   }
 
   public render() {
@@ -35,6 +35,7 @@ export default class extends Component<IAuthStateProps> {
             <Route children={children} />
           </Switch>
         </Router>
+        <div data-testid='auth-status-known' />
       </Style>
     );
   }

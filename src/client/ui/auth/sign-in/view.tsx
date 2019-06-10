@@ -19,10 +19,22 @@ export const View: FC<IProps> = ({ onSignIn, errorMessage }) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <Input type='text' placeholder='Email address' value={email} onChange={e => setEmail(e.target.value)} />
-      <Input type='password' placeholder='Password' value={password} onChange={e => setPassword(e.target.value)} />
-      <Button>Sign In</Button>
-      <p>{errorMessage}</p>
+      <Input
+        data-testid='email'
+        type='text'
+        placeholder='Email address'
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+      />
+      <Input
+        data-testid='password'
+        type='password'
+        placeholder='Password'
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+      />
+      <Button data-testid='sign-in-button'>Sign In</Button>
+      {errorMessage && <p data-testid='error-message'>{errorMessage}</p>}
       <p>
         Need an account? <Link to='/sign-up'>Sign Up</Link>
       </p>

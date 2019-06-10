@@ -43,6 +43,10 @@ export class WebappServer {
     this.addServicePath(path.resolve(__dirname, 'services'));
   }
 
+  public async close() {
+    await this.messageServer.close();
+  }
+
   public addServicePath(servicePath: string): void {
     messageLog('Add service path: ', servicePath);
     this.servicePaths.push(servicePath);

@@ -1,7 +1,9 @@
-// @ts-ignore
-import resetCss from 'css-reset-and-normalize';
 import React, { FC, ReactNode } from 'react';
 import { createGlobalStyle } from 'styled-components';
+
+const resetCss =
+  // tslint:disable-next-line: no-var-requires
+  process.env.NODE_ENV === 'test' ? '' : require('css-reset-and-normalize/css/reset-and-normalize.min.css');
 
 const GlobalStyle = createGlobalStyle`
   ${resetCss}

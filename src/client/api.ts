@@ -47,9 +47,14 @@ interface IApiConfig {
 
 let messageClient: MessageClient;
 
+export const close = async () => {
+  await messageClient.close();
+};
+
 export const configure = async ({ secure, host, port }: IApiConfig) => {
   if (messageClient) {
     await messageClient.close();
+    typesLoaded = false;
   }
 
   messageClient = new MessageClient(`${secure ? 'wss' : 'ws'}://${host}:${port}`);
@@ -61,7 +66,8 @@ export const configure = async ({ secure, host, port }: IApiConfig) => {
       enumerable: true,
       value: async (data: any) => {
         try {
-          return await messageClient.send(type, data);
+          const resp = await messageClient.send(type, data);
+          return resp;
         } catch (err) {
           if (err instanceof Anomaly && err.data.code === AnomalyCode.NoSession) {
             // if there's no session then try to authenticate, then retry the same message again
@@ -70,10 +76,12 @@ export const configure = async ({ secure, host, port }: IApiConfig) => {
             } else {
               throw new Anomaly('Unauthorized', { code: AnomalyCode.Unauthorized });
             }
+          } else {
+            throw err;
           }
         }
       },
-      writable: false,
+      writable: true,
     });
   });
 
