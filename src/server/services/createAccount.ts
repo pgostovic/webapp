@@ -4,13 +4,14 @@ import cryptoRandomString from 'crypto-random-string';
 import isEmail from 'validator/lib/isEmail';
 import Account from '../../model/account';
 import { ICreateAccountParams, ICreateAccountResult } from '../../model/api';
+import Connection from '../connection';
 import Service from '../service';
 
 const log = createLogger('createUAccount');
 
-const createAccount = async (p: ICreateAccountParams): Promise<ICreateAccountResult> => {
+const createAccount = async (p: ICreateAccountParams, conn: Connection): Promise<ICreateAccountResult> => {
   if (!isEmail(p.email)) {
-    throw new Anomaly('Invalid email address.');
+    throw new Anomaly(conn.i18n('services.createAccount.invalidEmailAddress'));
   }
 
   const account = await new Account({

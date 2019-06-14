@@ -27,7 +27,5 @@ serverLog('Server started on port 17777');
 
 setDefaultDataStore(memoryDataStore);
 
+// tslint:disable-next-line: no-unused-expression
 new WebappServer(httpServer);
-
-// const server = new Server(httpServer);
-// server.addServicePath(path.resolve(__dirname, 'services'));

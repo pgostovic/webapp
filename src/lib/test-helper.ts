@@ -20,6 +20,8 @@ export const setupServer = async () => {
 
   webappServer = new WebappServer(httpServer);
 
+  await webappServer.waitUntilInitialized();
+
   await new Promise(resolve => {
     httpServer.listen({ port: PORT }, resolve);
   });
@@ -34,7 +36,6 @@ export const tearDownServer = async () => {
   await webappServer.close();
 
   if (httpServer.listening) {
-    // await close();
     await new Promise((resolve, reject) => {
       try {
         httpServer.close(() => {

@@ -1,0 +1,5 @@
+{
+  "auth.sign-up.sign-up-button": "Sign up",
+  "services.createAccount.invalidEmailAddress": "Invalid email address",
+  "services.createSession.invalidCredentials": "Invalid credentials"
+}

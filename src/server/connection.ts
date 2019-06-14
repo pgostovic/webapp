@@ -1,6 +1,8 @@
 import { Anomaly } from '@phnq/message';
 import { IValue } from '@phnq/message/constants';
 import { IConnection } from '@phnq/message/server';
+import { parse } from 'accept-language-parser';
+import { i18n, IParams } from '../lib/i18n';
 import Account from '../model/account';
 import { AnomalyCode } from '../model/api';
 import Session from '../model/session';
@@ -10,6 +12,15 @@ class Connection {
 
   constructor(wrapped: IConnection) {
     this.wrapped = wrapped;
+
+    const headers = wrapped.getUpgradeHeaders();
+    const langsHeader = headers['accept-language'];
+    if (langsHeader) {
+      const langs = parse(langsHeader as string);
+      const langCodes = langs.map(l => [l.code, l.region].filter(x => x).join('-'));
+      langs.filter(l => !l.region && !langCodes.includes(l.code)).forEach(l => langCodes.push(l.code));
+      this.langCodes = langCodes;
+    }
   }
 
   public get session(): Session {
@@ -52,6 +63,21 @@ class Connection {
 
   public push(type: string, data: IValue) {
     this.wrapped.push(type, data);
+  }
+
+  public get langCodes(): string[] {
+    return this.get('langCodes') as string[];
+  }
+
+  public set langCodes(langCodes: string[]) {
+    this.set('langCodes', langCodes);
+  }
+
+  public i18n(key: string, params?: IParams): string {
+    if (process.env.NODE_ENV === 'test') {
+      return `TEST:${key}`;
+    }
+    return i18n(this.langCodes, key, params);
   }
 
   protected get(name: string): any {

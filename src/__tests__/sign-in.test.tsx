@@ -28,7 +28,7 @@ describe('Sign-in', () => {
       const signInButton = result.getByTestId('sign-in-button');
       fireEvent.click(signInButton);
       const errorMessage = await waitForElement(() => result.getByTestId('error-message'));
-      expect(errorMessage).toHaveTextContent('Invalid credentials');
+      expect(errorMessage).toHaveTextContent('TEST:services.createSession.invalidCredentials');
       expect(result.queryByTestId('the-client')).not.toBeInTheDocument();
     });
   });
@@ -78,7 +78,7 @@ describe('Sign-in', () => {
       fireEvent.click(signInButton);
 
       const errorMessage = await waitForElement(() => result.getByTestId('error-message'));
-      expect(errorMessage).toHaveTextContent('Invalid credentials');
+      expect(errorMessage).toHaveTextContent('TEST:services.createSession.invalidCredentials');
       expect(result.queryByTestId('the-client')).not.toBeInTheDocument();
     });
   });

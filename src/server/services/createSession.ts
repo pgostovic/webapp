@@ -28,7 +28,7 @@ const createSession = async (p: ICreateSessionParams, conn: Connection): Promise
 
     return { token: session.token, requires: account.requires };
   }
-  throw new Anomaly('Invalid credentials');
+  throw new Anomaly(conn.i18n('services.createSession.invalidCredentials'));
 };
 
 export default createSession as Service;
