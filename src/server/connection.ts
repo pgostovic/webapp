@@ -77,7 +77,7 @@ class Connection {
     if (process.env.NODE_ENV === 'test') {
       return `TEST:${key}`;
     }
-    return i18n(this.langCodes, key, params);
+    return i18n(this.langCodes, key, params) as string;
   }
 
   protected get(name: string): any {

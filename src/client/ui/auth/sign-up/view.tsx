@@ -25,12 +25,10 @@ export const View: FC<IProps> = ({ errorMessage, successMessage, onSignUp }) => 
       {errorMessage && <p data-testid='error-message'>{errorMessage}</p>}
       {successMessage && <p>{successMessage}</p>}
       <p>
-        Already have an account? <Link to='/sign-in'>Sign In</Link>
+        {i18n('auth.sign-up.sign-in-link', {
+          link: text => <Link to='/sign-in'>{text}</Link>,
+        })}
       </p>
     </form>
   );
 };
-
-// const i18n = (key: string) => {
-//   return `i18n:${key}`;
-// };

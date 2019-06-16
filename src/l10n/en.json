@@ -1,5 +1,6 @@
 {
   "auth.sign-up.sign-up-button": "Sign up",
+  "auth.sign-up.sign-in-link": "Already have an account? {link(Sign In)}",
   "services.createAccount.invalidEmailAddress": "Invalid email address",
   "services.createSession.invalidCredentials": "Invalid credentials"
 }
