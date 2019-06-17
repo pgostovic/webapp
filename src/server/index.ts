@@ -54,6 +54,7 @@ export class WebappServer {
   }
 
   public async addL10nPath(l10nPath: string) {
+    messageLog('Add L10n path: ', l10nPath);
     (await fs.readdir(l10nPath))
       .filter(p => p.match(/\.json$/))
       .forEach(async stringsPath => {
