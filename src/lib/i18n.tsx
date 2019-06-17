@@ -48,7 +48,21 @@ export function i18n(...args: any[]): string | Array<string | JSX.Element> {
   for (const code of codes) {
     const l10n = l10ns.get(code);
     if (l10n) {
-      return subParams(key, l10n[key], params) || `[I18N-MISSING(${code}):${key}]`;
+      try {
+        return subParams(key, l10n[key], params);
+      } catch (err) {
+        const prefix = process.env.NODE_ENV === 'test' ? 'TEST' : `I18N-MISSING(${code})`;
+        const comps: Array<string | JSX.Element> = [`[${prefix}:${key}]`];
+        if (params) {
+          Object.keys(params).forEach(k => {
+            const p = params[k];
+            if (typeof p === 'function') {
+              comps.push(<Fragment key={k}>{p(`[${prefix}:${key}--${k}]`)}</Fragment>);
+            }
+          });
+        }
+        return comps;
+      }
     }
   }
 
@@ -58,9 +72,9 @@ export function i18n(...args: any[]): string | Array<string | JSX.Element> {
 const PARAMS_REGEX = /\{([^}]+)}/g;
 const FUNC_PARAM_REGEX = /(\w+)\(([\w\s]+)\)/;
 
-const subParams = (key: string, text?: string, params?: IParams): string | Array<string | JSX.Element> | undefined => {
-  if (!text) {
-    return undefined;
+const subParams = (key: string, text?: string, params?: IParams): string | Array<string | JSX.Element> => {
+  if (!text || process.env.NODE_ENV === 'test') {
+    throw new Error('missing asset or test env');
   }
 
   let m = PARAMS_REGEX.exec(text);
