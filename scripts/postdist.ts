@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import rimraf from 'rimraf';
 
@@ -14,9 +14,7 @@ const {
   name: packageName,
   repository,
   version,
-} = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../package.json')).toString(),
-);
+} = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../package.json')).toString());
 
 const distPkgJSON = {
   author,
@@ -32,14 +30,10 @@ const distPkgJSON = {
   version,
 };
 
-fs.writeFileSync(
-  path.resolve(__dirname, '../dist/package.json'),
-  JSON.stringify(distPkgJSON, null, 2),
-);
+fs.writeFileSync(path.resolve(__dirname, '../dist/package.json'), JSON.stringify(distPkgJSON, null, 2));
 
-fs.copyFileSync(
-  path.resolve(__dirname, '../README.md'),
-  path.resolve(__dirname, '../dist/README.md'),
-);
+fs.copyFileSync(path.resolve(__dirname, '../README.md'), path.resolve(__dirname, '../dist/README.md'));
 
 rimraf.sync(path.resolve(__dirname, '../dist/__tests__'));
+
+fs.copySync(path.resolve(__dirname, '../src/l10n'), path.resolve(__dirname, '../dist/l10n'));
